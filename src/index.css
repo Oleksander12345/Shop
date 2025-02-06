@@ -1,0 +1,232 @@
+:root {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.auth-page {
+  background-image: url("./assets/background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.login-main {
+  width: 100%;
+}
+.login-container {
+  width: 40%;
+  border: 1px solid #000;
+  border-radius: 50px;
+  margin: auto;
+  margin-top: 5%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.title {
+  margin: 1rem 0;
+  text-align: center;
+  margin-top: 2rem;
+}
+:root {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-main {
+  width: 100%;
+}
+.login-container {
+  width: 40%;
+  border: 1px solid #000;
+  border-radius: 50px;
+  margin: auto;
+  margin-top: 5%;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.title {
+  margin: 1rem 0;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.form {
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 288px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2.3rem;
+}
+
+.form input {
+  outline: none;
+}
+
+.form input[type=text],
+.form input[type=email],
+.form input[type=password]{
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  padding-bottom: 0.6rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  border-bottom: 3px solid #000;
+  font-family: 'Poppins';
+  transition: border 0.3s ease;
+}
+
+.form input[type=submit],
+.form button {
+  width: 85%;
+}
+
+.label {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form input:focus + .label,
+.form input:not(:placeholder-shown) + .label {
+  top: -0.2rem;
+  color: #615e5f;
+  font-size: 0.8rem;
+}
+
+/* .form input:focus {
+  border-bottom: 3px solid #be0027;
+} */
+
+.btn {
+  padding: 0.7rem 4.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  /* opacity: 0.7; */
+  background-color: #504f50;
+}
+
+/* .btn:focus {
+  border: none;
+} */
+
+.btn-submit {
+  color: #FFF;
+  background-color: #615e5f;
+}
+.login-registration-container {
+  margin-top: 1em;
+}
+.login-registration {
+  color: #615e5f;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  /* width: 60%; */
+  text-decoration: none;
+
+  transition: 0.3s ease;
+}
+.login-registration:hover {
+  color: hsl(340, 2%, 34%);
+}
+
+.error-message {
+  color: red;
+  margin: auto;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+
+/* Reset Password */
+
+
+/* Контейнер сторінки */
+.reset-password-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+/* Заголовок */
+.reset-password-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Форма */
+.reset-password-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.reset-password-form input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reset-password-form button {
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-password-form button:hover {
+  background-color: #45a049;
+}
+
+/* Повідомлення */
+.reset-password-message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #4caf50;
+}
+
+.reset-password-message.error {
+  color: #f44336;
+}
