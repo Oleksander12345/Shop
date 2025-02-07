@@ -26,6 +26,11 @@ function CVV2() {
     setIsChecked(e.target.checked);
   };
 
+    const obfuscateExpDate = (expDate) => {
+        const [month, year] = expDate.split('/');
+        return `XX/${year}`;
+    };
+
   useEffect(() => {
           if (!token) {
               navigate("/login");
@@ -65,7 +70,7 @@ function CVV2() {
             bin: cvv2.bin,
             type: cvv2.type,
             subtype: cvv2.subtype,
-            exp: cvv2.exp,
+            exp: obfuscateExpDate(cvv2.expDate),
             name: cvv2.name,
             country: cvv2.country,
             state: cvv2.state,
@@ -288,7 +293,7 @@ function CVV2() {
                         <td>{cvv2.bin}</td>
                         <td>{cvv2.type}</td>
                         <td>{cvv2.subtype}</td>
-                        <td>{cvv2.exp}</td>
+                        <td>{obfuscateExpDate(cvv2.expDate)}</td>
                         <td>{cvv2.name}</td>
                         <td>{cvv2.country}</td>
                         <td>{cvv2.state}</td>

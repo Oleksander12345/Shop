@@ -387,7 +387,7 @@ function Cart() {
                       <td>{item.bin}</td>
                       <td>{item.type}</td>
                       <td>{item.subtype}</td>
-                      <td>{item.expiry}</td>
+                      <td>{item.exp}</td>
                       <td>{item.name}</td>
                       <td>{item.country}</td>
                       <td>{item.state}</td>
