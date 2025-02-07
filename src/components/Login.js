@@ -40,7 +40,12 @@ function Login() {
   
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', JSON.stringify(data.token)); // Зберігаємо токен або дані користувача
+        localStorage.setItem('token', data.token); // Зберігаємо токен або дані користувача
+        console.log(data.token);
+        const decodedToken = JSON.parse(atob(data.token.split(".")[1])); // Декодируем payload
+        localStorage.setItem("username", decodedToken.sub);
+        localStorage.setItem("role", decodedToken.roles)
+        console.log(decodedToken.roles);
         navigate('/dumps');
       } else {
         const errorData = await response.json();
