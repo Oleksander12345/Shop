@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { HiShoppingCart } from "react-icons/hi";
 import { CartContext } from '../CartContext';
 
-function TableThree() {
+function TableFull() {
   const [isChecked, setIsChecked] = useState(false);
   const buttonContainerRef = useRef(null);
   const [purchaseMessage, setPurchaseMessage] = useState(false);
@@ -209,4 +209,4 @@ function TableThree() {
   );
 }
 
-export default TableThree;
+export default TableFull;

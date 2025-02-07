@@ -55,35 +55,36 @@ function CVV2() {
 
             });
     }
-  
-  const handleAddToCart = (row) => {
-    const rowData = {
-      id: Date.now(),
-      bin: row.querySelector('td:nth-child(2)').innerText,
-      type: row.querySelector('td:nth-child(3)').innerText,
-      subtype: row.querySelector('td:nth-child(4)').innerText,
-      exp: row.querySelector('td:nth-child(5)').innerText,
-      name: row.querySelector('td:nth-child(6)').innerText,
-      country: row.querySelector('td:nth-child(7)').innerText,
-      state: row.querySelector('td:nth-child(8)').innerText,
-      zip: row.querySelector('td:nth-child(9)').innerText,
-      extra: row.querySelector('td:nth-child(10)').innerText,
-      bank: row.querySelector('td:nth-child(11)').innerText,
-      base: row.querySelector('td:nth-child(12)').innerText,
-      price: row.querySelector('td:nth-child(13)').innerText,
-      category: 'CVV2',
-      className: row.className, // Додаємо класи рядка
+
+    const handleAddToCart = (cvv2) => {
+        const rowData = {
+            id: cvv2.id,
+            cardId: cvv2.cardId,
+            bin: cvv2.bin,
+            type: cvv2.type,
+            subtype: cvv2.subtype,
+            exp: cvv2.exp,
+            name: cvv2.name,
+            country: cvv2.country,
+            state: cvv2.state,
+            zip: cvv2.zip,
+            extra: cvv2.extra,
+            bank: cvv2.bank,
+            base: cvv2.base,
+            price: `$${cvv2.price.toFixed(2)}`, // Форматируем цену
+            category: 'CVV2',
+        };
+
+        addToCart(rowData); // Добавляем в корзину
+        setPurchaseMessage(true);
+
+        // Убираем сообщение через 3 секунды
+        setTimeout(() => {
+            setPurchaseMessage(false);
+        }, 3000);
     };
-    addToCart(rowData);
-    setPurchaseMessage(true);
 
-    // Приховуємо повідомлення через 3 секунди
-    setTimeout(() => {
-      setPurchaseMessage(false);
-    }, 3000);
-  };
-
-  return (
+    return (
     <main className='CVV2-main'>
         <div className="CVV2-container">
         <h1 className='page-title'>CVV2</h1>
@@ -93,7 +94,7 @@ function CVV2() {
           </div>
         )}
         <form className="CVV2-filter-form">
-            
+
             <div className="CVV2-filter-form-container">
                 <div className="CVV2-filter-column">
                     <div className="CVV2-filter-group">
@@ -238,7 +239,7 @@ function CVV2() {
             </div>
 
 
-            
+
             <div className="Fullz-buttons">
                     <button id="clear">Clear</button>
                     <button id="search">Search</button>
@@ -250,11 +251,11 @@ function CVV2() {
                     <button id="action2">Fast order</button>
                 </div>
             )}
-    
+
 
             <table className="CVV2-table">
             <thead>
-                <tr>
+            <tr>
                 <th>Select</th>
                 <th>Bin</th>
                 <th>Type</th>
@@ -269,7 +270,7 @@ function CVV2() {
                 <th>Base</th>
                 <th>Price</th>
                 <th>Cart</th>
-                </tr>
+            </tr>
             </thead>
 
             <tbody className='CVV2-tbody'>
@@ -308,7 +309,7 @@ function CVV2() {
             </table>
         </div>
     </main>
-    
+
   );
 }
 
