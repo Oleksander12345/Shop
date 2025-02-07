@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { HiShoppingCart } from "react-icons/hi";
 import { CartContext } from '../CartContext';
+import { useNavigate } from "react-router-dom";
 
 function CVV2() {
-  const [isChecked, setIsChecked] = useState(false);
-  const buttonContainerRef = useRef(null);
-  const [purchaseMessage, setPurchaseMessage] = useState(false); // Стан для повідомлення
-  const [priceRange, setPriceRange] = useState(1);
-  const { addToCart } = useContext(CartContext);
+    const [isChecked, setIsChecked] = useState(false);
+    const buttonContainerRef = useRef(null);
+    const [purchaseMessage, setPurchaseMessage] = useState(false); // Стан для повідомлення
+    const { addToCart } = useContext(CartContext); // Підключення до контексту
+    const token = localStorage.getItem("token")
+    const navigate = useNavigate();
+    const [cvv2s, setCvv2] = useState([]); // Состояние для хранения данных
+
 
   // Використовуємо useEffect для оновлення стилю, коли змінюється isChecked
   useEffect(() => {
@@ -15,17 +19,50 @@ function CVV2() {
       buttonContainerRef.current.style.display = isChecked ? 'block' : 'none';
     }
   }, [isChecked]);
-
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
   };
+
+  useEffect(() => {
+          if (!token) {
+              navigate("/login");
+          } else {
+              fetchCVV2();
+          }
+      }, [navigate, token]);
+
+    function fetchCVV2() {
+        fetch(`http://192.168.0.219:8081/api/cvv2/get_all_cvv2`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((error) => {
+                        throw new Error(error.error || "Failed to fetch dumps");
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setCvv2(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching user profile:", error);
+
+            });
+    }
+  
   const handleAddToCart = (row) => {
     const rowData = {
       id: Date.now(),
       bin: row.querySelector('td:nth-child(2)').innerText,
       type: row.querySelector('td:nth-child(3)').innerText,
       subtype: row.querySelector('td:nth-child(4)').innerText,
-      expiry: row.querySelector('td:nth-child(5)').innerText,
+      exp: row.querySelector('td:nth-child(5)').innerText,
       name: row.querySelector('td:nth-child(6)').innerText,
       country: row.querySelector('td:nth-child(7)').innerText,
       state: row.querySelector('td:nth-child(8)').innerText,
@@ -47,7 +84,7 @@ function CVV2() {
   };
 
   return (
-    <main className='Dumps-main'>
+    <main className='CVV2-main'>
         <div className="CVV2-container">
         <h1 className='page-title'>CVV2</h1>
         {purchaseMessage && (
@@ -148,8 +185,8 @@ function CVV2() {
                     </div>
                     <div className="CVV2-filter-group">
                         <label>Price Range:</label>
-                        <span>${priceRange}</span>
-                        <input type="range" min="1" max="150" value={priceRange} onChange={(e) => setPriceRange(e.target.value)}/>
+                        {/* <span>${priceRange}</span> */}
+                        {/* <input type="range" min="1" max="150" value={priceRange} onChange={(e) => setPriceRange(e.target.value)}/> */}
                         <span>$150</span>
                     </div>
                 </div>
@@ -234,33 +271,39 @@ function CVV2() {
                 <th>Cart</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                <td>
-                    <input
-                        type="checkbox"
-                        className="row-select"
-                        onChange={handleCheckboxChange}
-                    />
-                    </td>
-                <td>515676</td>
-                <td>Visa</td>
-                <td>Debbit Classic</td>
-                <td>09/26</td>
-                <td>MYRON</td>
-                <td>USA</td>
-                <td>FL</td>
-                <td>33***</td>
-                <td>Phone Email IP</td>
-                <td>HSBC - BestBuy</td>
-                <td>0121_US_PHONE_EMAIL_ZIP_IP</td>
-                <td>$21.35</td>
-                <td>
-                    <button className='shopping-cart' onClick={(e) => handleAddToCart(e.target.closest('tr'))}>
-                        <HiShoppingCart />
-                    </button>
-                </td>
-                </tr>
+
+            <tbody className='CVV2-tbody'>
+                {cvv2s.map((cvv2) => (
+                    <tr key={cvv2.id} className='Dumps-tbody-tr'>
+                        <td>
+                            <input
+                                type="checkbox"
+                                className="row-select"
+                                onChange={handleCheckboxChange}
+                            />
+                        </td>
+                        <td>{cvv2.bin}</td>
+                        <td>{cvv2.type}</td>
+                        <td>{cvv2.subtype}</td>
+                        <td>{cvv2.exp}</td>
+                        <td>{cvv2.name}</td>
+                        <td>{cvv2.country}</td>
+                        <td>{cvv2.state}</td>
+                        <td>{cvv2.zip}</td>
+                        <td>{cvv2.extra}</td>
+                        <td>{cvv2.bank}</td>
+                        <td>{cvv2.base}</td>
+                        <td>${cvv2.price.toFixed(2)}</td>
+                        <td>
+                            <button
+                                className='shopping-cart'
+                                onClick={() => handleAddToCart(cvv2)}
+                            >
+                                <HiShoppingCart/>
+                            </button>
+                        </td>
+                    </tr>
+                ))}
             </tbody>
             </table>
         </div>

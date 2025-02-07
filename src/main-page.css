@@ -361,6 +361,16 @@
 }
 
 /* Fullz filter */
+ul {
+  list-style-type: none;
+}
+.Fullz-tbody-tr td {
+  border: 1px solid hsla(0, 0%, 72%, 0.929);
+}
+.Fullz-tbody-tr  ul {
+  margin: 10px;
+}
+
 
 .Fullz-form-container {
   display: flex;
