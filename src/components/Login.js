@@ -74,7 +74,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('http://192.168.0.219:8081/api/auth/login', {
         method: 'POST',
@@ -83,20 +83,22 @@ function Login() {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
+        // Збереження токена та ролей у localStorage
         localStorage.setItem('token', data.token);
         const decodedToken = JSON.parse(atob(data.token.split(".")[1]));
         localStorage.setItem("username", decodedToken.sub);
         localStorage.setItem("role", decodedToken.roles);
         navigate('/dumps');
       } else {
+        // Отримання повідомлення про помилку від сервера
         const errorData = await response.json();
-        setError(errorData.message || 'Invalid username or password');
+        setError(errorData.message || 'Invalid username or password'); // Відображення тексту помилки
       }
     } catch (error) {
-      setError('Server error. Please try again later.');
+      setError('Server error. Please try again later.'); // Обробка помилок під час запиту
     }
   };
 

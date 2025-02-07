@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [newPassword, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
@@ -12,20 +14,21 @@ function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       setMessage('Passwords do not match!');
       return;
     }
 
     try {
-      const response = await fetch('http://your-server.com/api/auth/reset-password', {
+      const response = await fetch('http://192.168.0.219:8081/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ token, newPassword }),
       });
 
       if (response.ok) {
         setMessage('Password successfully reset. You can now log in.');
+        navigate("/");
       } else {
         setMessage('Error: Invalid token or server issue.');
       }
@@ -42,7 +45,7 @@ function ForgotPassword() {
           type="password"
           placeholder="New Password"
           className="forgot-password-input"
-          value={password}
+          value={newPassword}
           onChange={(e) => setPassword(e.target.value)}
           required
         />

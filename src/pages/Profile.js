@@ -5,14 +5,13 @@ function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [oldPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordChangeMessage, setPasswordChangeMessage] = useState("");
   const token = localStorage.getItem("token");
   console.log(token);
   const username = localStorage.getItem("username")
-
 
   useEffect(() => {
     if (!token) {
@@ -48,47 +47,32 @@ function Profile() {
         });
   }
 
-  const handlePasswordChangeEmail = async () => {
-    if (!userData?.email) {
-      setMessage("Error: No email associated with the user.");
-      clearMessageAfterTimeout(setMessage);
-      return;
-    }
-
-    try {
-      const response = await fetch("http://your-server.com/api/auth/reset-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: userData.email }),
-      });
-
-      if (response.ok) {
-        setMessage("A password reset link has been sent to your email.");
-      } else {
-        setMessage("Error: Unable to send the reset link.");
-      }
-      clearMessageAfterTimeout(setMessage);
-    } catch (error) {
-      setMessage("Server error. Please try again later.");
-      clearMessageAfterTimeout(setMessage);
-    }
-  };
-
-  const handlePasswordChange = () => {
+  const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
       setPasswordChangeMessage("New passwords do not match.");
       clearMessageAfterTimeout(setPasswordChangeMessage);
       return;
     }
 
-    // Здесь должен быть вызов API для смены пароля, если требуется.
-    setPasswordChangeMessage("Password changed successfully.");
-    clearMessageAfterTimeout(setPasswordChangeMessage);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
+    try {
+      const response = await fetch(`http://192.168.0.219:8081/api/auth/${username}/change-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, oldPassword, newPassword }),
+      });
+
+      if (response.ok) {
+        setPasswordChangeMessage("Password changed successfully.");
+        clearMessageAfterTimeout(setPasswordChangeMessage);
+      } else {
+        setMessage('Error: Invalid token or server issue.');
+        clearMessageAfterTimeout(setMessage);
+      }
+    } catch (error) {
+      setMessage('Server error. Please try again later.');
+    }
+
+
   };
 
   const handleLogout = () => {
@@ -122,7 +106,7 @@ function Profile() {
               <td>
                 <input
                     type="password"
-                    value={currentPassword}
+                    value={oldPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     placeholder="Enter current password"
                 />
@@ -155,9 +139,6 @@ function Profile() {
           <div>
             <button type="button" onClick={handlePasswordChange}>
               Change Password
-            </button>
-            <button type="button" onClick={handlePasswordChangeEmail}>
-              Forgot password? Send link on email
             </button>
           </div>
 
