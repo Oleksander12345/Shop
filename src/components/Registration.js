@@ -105,8 +105,8 @@ function Registration() {
               onChange={(e) => setRole(e.target.value)}
               required
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="USER">User</option>
+              <option value="ADMIN">Admin</option>
             </select>
           </div>
 

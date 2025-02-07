@@ -14,6 +14,7 @@ import ResetPassword from './components/PasswordReset';
 import AdminPanel from './pages/Admin';
 import ProtectedRoute from './components/ProtectedRoute';
 import Orders from './pages/Orders'
+import ForgotPassword from './components/ForgotPassword'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/passwordreset" element={<ResetPassword />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
 
         {/* Сторінки з Layout */}
         <Route path="/" element={<Layout />}>
