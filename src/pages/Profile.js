@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
-
-
-  
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -20,6 +16,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 };
 
 function Profile() {
+  const [transactions, setTransaction] = useState([]);
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState("");
@@ -37,9 +34,33 @@ function Profile() {
       navigate("/login");
     } else {
       getUserData();
+      fetchTransaction();
     }
   }, [navigate, token]);
 
+  const fetchTransaction = () => {
+    fetch(`http://192.168.0.219:8081/api/dumps/get_all_dumps`, { 
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(error.error || "Failed to fetch dumps");
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+          setTransaction(data);
+        })
+        .catch(error => {
+            console.error("Error fetching dumps data:", error);
+        });
+};
 
 
   // Получение данных пользователя с сервера
@@ -227,11 +248,16 @@ function Profile() {
 
         <div className="profile-section order-history">
           <h3>Transaction History</h3>
-          <div className="order-history-item">
-            <span>Order #12345</span>
-            <span>01/10/2025</span>
-            <span>$250.00</span>
+          {transactions.map(trans => (
+            <div className="order-history-item" key={trans.transId}>
+            <span className="transaction-id">{trans.transId}</span>
+            <span className="transaction-amount">{trans.amount}</span>
+            <span className="transaction-date">{trans.date}</span>
+            <span className="transaction-cryproCurrency">{trans.cryptoCurrency}</span>
+            <span className="transaction-status">{trans.status}</span>
           </div>
+          ))}
+          
           <div className="order-history-item">
             <span>Order #12346</span>
             <span>01/12/2025</span>
