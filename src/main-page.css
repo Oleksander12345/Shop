@@ -276,12 +276,14 @@
   cursor: pointer;
   background: none;
   border: none;
+  margin: 0 auto;
+  display: block;
 }
 .purchase-message {
   background-color: #4caf50;
   color: white;
   padding: 10px 10px 10px 15px;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 100px;
   text-align: center;
@@ -380,6 +382,10 @@ ul {
 .Fullz-colums-container {
   display: flex;
   /* justify-content: space-around; */
+}
+.Fullz-prise {
+  display: block;
+  text-align: center;
 }
 .Fullz-colum {
   width: 34%;

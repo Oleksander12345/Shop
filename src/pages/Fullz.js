@@ -45,7 +45,12 @@ function Fullz() {
 
             });
   }
-
+  function getStatusLabel(text) {
+    if (!text) return <span style={{ color: "red" }}>No</span>; // Якщо text порожній або undefined, повертаємо "Yes"
+  
+    const containsNo = text.toLowerCase().includes("no");
+    return <span style={{ color: containsNo ? "red" : "green" }}>{containsNo ? "No" : "Yes"}</span>;
+  }
   const handleAddToCart = (row) => {
     const rowData = {
       id: Date.now(),
@@ -55,26 +60,26 @@ function Fullz() {
       country: row.querySelector('row-city-zip').innerText,
       zip: row.dateset.zip,
       fullAddress: row.dataset.fullAddress,
-      phone: row.dateset.phone,
+      phone: row.dataset.phone,
       email: row.dataset.email,
-      ownOrRent: row.dateset.ownOrRent,
+      ownOrRent: row.dataset.ownOrRent,
       yearsAtResidence: row.dataset.yearsAtResidence,
-      incomeType: row.dateset.incomeType,
+      incomeType: row.dataset.incomeType,
       employer: row.dataset.employer,
-      occupation: row.dateset.occupation,
+      occupation: row.dataset.occupation,
       yearsEmployed: row.dataset.yearsEmployed,
-      workPhone: row.dateset.workPhone,
+      workPhone: row.dataset.workPhone,
       netMonthlyIncome: row.dataset.netMonthlyIncome,
-      creditReport: row.dateset.creditReport,
+      creditReport: row.dataset.creditReport,
       creditCard: row.dataset.creditCard,
-      checkingAccount: row.dateset.checkingAccount,
+      checkingAccount: row.dataset.checkingAccount,
       ssn: row.dataset.ssn,
-      dob: row.dateset.dob,
-      mmn: row.dateset.mmn,
+      dob: row.dataset.dob,
+      mmn: row.dataset.mmn,
       driverLicense: row.dataset.driverLicense,
-      account: row.dateset.account,
+      account: row.dataset.account,
       routing: row.dataset.routing,
-      creditReportPdf: row.dateset.creditReportPdf,
+      creditReportPdf: row.dataset.creditReportPdf,
       personReportPdf: row.dataset.personReportPdf,
 
       object: row.querySelector('td:nth-child(3)').innerText,
@@ -270,19 +275,19 @@ function Fullz() {
                             <li>
                                 <div>
                                     <span>Full address:</span>
-                                    <span className='row-fullAdress'>yes</span>
+                                    <span className='row-fullAdress'>{getStatusLabel(fullz.fullAdress)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Phone:</span>
-                                    <span className='row-phone'>no</span>
+                                    <span className='row-phone'>{getStatusLabel(fullz.phone)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Email:</span>
-                                    <span className='row-email'>yes</span>
+                                    <span className='row-email'>{getStatusLabel(fullz.email)}</span>
                                 </div>
                             </li>
                         </ul>
@@ -293,49 +298,49 @@ function Fullz() {
                             <li>
                                 <div>
                                     <span>Own/Rent:</span>
-                                    <span className='row-ownOrRent'>no</span>
+                                    <span className='row-ownOrRent'>{getStatusLabel(fullz.ownOrRent)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Years At Residence:</span>
-                                    <span className='row-yearsAtResidence'>no</span>
+                                    <span className='row-yearsAtResidence'>{getStatusLabel(fullz.yearsAtResidence)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Income Type:</span>
-                                    <span className='row-incomeType'>no</span>
+                                    <span className='row-incomeType'>{getStatusLabel(fullz.incomeType)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Employer:</span>
-                                    <span className='row-employer'>no</span>
+                                    <span className='row-employer'>{getStatusLabel(fullz.employer)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Occupation:</span>
-                                    <span className='row-occupation'>no</span>
+                                    <span className='row-occupation'>{getStatusLabel(fullz.occupation)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Years Employed:</span>
-                                    <span className='row-yearsEmployed'>no</span>
+                                    <span className='row-yearsEmployed'>{getStatusLabel(fullz.yearsEmployed)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Work Phone:</span>
-                                    <span className='row-workPhone'>no</span>
+                                    <span className='row-workPhone'>{getStatusLabel(fullz.workPhone)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Net Monthly Income:</span>
-                                    <span className='row-netMonthlyIncome'>no</span>
+                                    <span className='row-netMonthlyIncome'>{getStatusLabel(fullz.netMonthlyIncome)}</span>
                                 </div>
                             </li>
                           </ul>
@@ -346,79 +351,79 @@ function Fullz() {
                             <li>
                                 <div>
                                     <span>Credit Report:</span>
-                                    <span className='row-creditReport'>yes</span>
+                                    <span className='row-creditReport'>{getStatusLabel(fullz.creditReport)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Credit Card:</span>
-                                    <span className='row-creditCard'>no</span>
+                                    <span className='row-creditCard'>{getStatusLabel(fullz.creditCard)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Checking Account:</span>
-                                    <span className='row-checkingAccount'>no</span>
+                                    <span className='row-checkingAccount'>{getStatusLabel(fullz.checkingAccount)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>SSN:</span>
-                                    <span className='row-ssn'>yes</span>
+                                    <span className='row-ssn'>{getStatusLabel(fullz.ssn)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>DOB:</span>
-                                    <span className='row-dob'>yes</span>
+                                    <span className='row-dob'>{getStatusLabel(fullz.dob)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>MMN:</span>
-                                    <span className='row-mmn'>no</span>
+                                    <span className='row-mmn'>{getStatusLabel(fullz.mmn)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Driver License (NV):</span>
-                                    <span className='row-driverLicense'>yes</span>
+                                    <span className='row-driverLicense'>{getStatusLabel(fullz.driverLicense)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Account:</span>
-                                    <span className='row-account'>no</span>
+                                    <span className='row-account'>{getStatusLabel(fullz.account)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Routing:</span>
-                                    <span className='row-routing'>yes</span>
+                                    <span className='row-routing'>{getStatusLabel(fullz.routing)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Extra Info:</span>
-                                    <span className='row-extraInfo'>no</span>
+                                    <span className='row-extraInfo'>{getStatusLabel(fullz.extraInfo)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Credit Report (Pdf):</span>
-                                    <span className='row-creditReportPdf'>yes</span>
+                                    <span className='row-creditReportPdf'>{getStatusLabel(fullz.creditReportPdf)}</span>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>Person Report (Pdf):</span>
-                                    <span className='row-personReportPdf'>yes</span>
+                                    <span className='row-personReportPdf'>{getStatusLabel(fullz.personReportPdf)}</span>
                                 </div>
                             </li>
                         </ul>
                         </td>
-                        <td>{fullz.base}</td>
-                        <td>${fullz.price.toFixed(2)}</td>
+                        <td><span style={{margin: "0 10px"}}>{fullz.base}</span></td>
+                        <td><span className='Fullz-prise'>${fullz.price.toFixed(2)}</span></td>
                         <td>
                             <button
                                 className='shopping-cart'
