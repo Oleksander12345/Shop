@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TableOne from "./TableOne";
-import TableTwo from "./TableTwo";
-import TableThree from "./TableThree";
+import TableOne from "./TableDump";
+import TableCvv from "./TableCvv";
+import TableFull from "./TableFull";
 
 function Orders() {
   const [activeTab, setActiveTab] = useState(0); // Стан для активної вкладки
@@ -39,8 +39,8 @@ function Orders() {
           {/* Контент таблиць */}
           <div className="table-container">
             {activeTab === 0 && <TableOne />}
-            {activeTab === 1 && <TableTwo />}
-            {activeTab === 2 && <TableThree />}
+            {activeTab === 1 && <TableCvv />}
+            {activeTab === 2 && <TableFull />}
           </div>
       </div>
     </div>

@@ -24,6 +24,90 @@
   text-transform: uppercase;
 }
 
+.cart-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.cart-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.cart-section {
+  margin-bottom: 40px;
+}
+
+.cart-section-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-table th, .cart-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.cart-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.cart-table td {
+  text-align: center; /* Центрирование по горизонтали */
+  vertical-align: middle; /* Центрирование по вертикали */
+  padding: 10px;
+}
+
+.remove-button {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+}
+
+
+
+
+
+.cart-total {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 20px;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cart-link1, .cart-link2 {
+  padding: 10px 20px;
+  background-color: #444;
+  color: white;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cart-link1:hover, .cart-link2:hover {
+  background-color: #333;
+}
+
+
+
+
+
 
 .menu-trigger {
   position: fixed;
@@ -746,9 +830,6 @@ ul {
   border: none;
   background: none;
   transform: scale(2.5);
-  position: relative;
-  bottom: 11px;
-  margin: 0 5px;
 }
 
 
