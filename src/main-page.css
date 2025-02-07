@@ -899,6 +899,20 @@ ul {
   font-size: 2rem;
   color: white;
 }
+.addBalance {
+  background-color: #646668;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  
+}
+.addBalance:hover {
+  background-color: #464748;
+}
 
 .profile-info {
   flex: 1;

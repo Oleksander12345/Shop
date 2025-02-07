@@ -102,11 +102,6 @@ function Login() {
     }
   };
 
-  // const handlePasswordChange = () => {
-  //   alert(`Password change initiated for ${email}`);
-  //   setIsModalOpen(false);
-  // };
-
   return (
     <main className="login-main">
       <div className="login-container">
