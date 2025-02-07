@@ -2,18 +2,21 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { HiShoppingCart } from "react-icons/hi";
 import { CartContext } from '../CartContext';
 import { useNavigate } from "react-router-dom";
+import {HiCheckCircle } from "react-icons/hi";
 
 function CVV2() {
     const [isChecked, setIsChecked] = useState(false);
     const buttonContainerRef = useRef(null);
     const [purchaseMessage, setPurchaseMessage] = useState(false); // Стан для повідомлення
-    const { addToCart } = useContext(CartContext); // Підключення до контексту
     const token = localStorage.getItem("token")
     const navigate = useNavigate();
     const [cvv2s, setCvv2] = useState([]); // Состояние для хранения данных
+    const { addToCart, cartItems } = useContext(CartContext); // Получаем текущие элементы в корзине
+
+    const isItemInCart = (id) => cartItems.some(item => item.id === id);
 
 
-  // Використовуємо useEffect для оновлення стилю, коли змінюється isChecked
+    // Використовуємо useEffect для оновлення стилю, коли змінюється isChecked
   useEffect(() => {
     if (buttonContainerRef.current) {
       buttonContainerRef.current.style.display = isChecked ? 'block' : 'none';
@@ -58,8 +61,7 @@ function CVV2() {
 
     const handleAddToCart = (cvv2) => {
         const rowData = {
-            id: cvv2.id,
-            cardId: cvv2.cardId,
+            id: cvv2.cardId,
             bin: cvv2.bin,
             type: cvv2.type,
             subtype: cvv2.subtype,
@@ -296,12 +298,16 @@ function CVV2() {
                         <td>{cvv2.base}</td>
                         <td>${cvv2.price.toFixed(2)}</td>
                         <td>
-                            <button
-                                className='shopping-cart'
-                                onClick={() => handleAddToCart(cvv2)}
-                            >
-                                <HiShoppingCart/>
-                            </button>
+                            {isItemInCart(cvv2.cardId) ? (
+                                <HiCheckCircle color="green" size={24}/> // Зеленая галочка, если элемент добавлен
+                            ) : (
+                                <button
+                                    className='shopping-cart'
+                                    onClick={() => handleAddToCart(cvv2)}
+                                >
+                                    <HiShoppingCart size={24}/>
+                                </button>
+                            )}
                         </td>
                     </tr>
                 ))}
@@ -310,7 +316,7 @@ function CVV2() {
         </div>
     </main>
 
-  );
+    );
 }
 
 export default CVV2;

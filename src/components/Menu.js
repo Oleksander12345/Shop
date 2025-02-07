@@ -4,13 +4,15 @@ import { Link, useLocation } from 'react-router-dom';
 function Menu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  
+  const role = localStorage.getItem("role").slice(0);
+
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => setIsMenuOpen(false), [location.pathname]);
 
   const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
-  const isAdmin = currentUser.role === 'admin'; // Перевірка ролі
+  const isAdmin = role === 'ADMIN'; // Перевірка ролі
 
   return (
     <div className={`menu-container ${isMenuOpen ? 'open' : ''}`}>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { HiShoppingCart } from "react-icons/hi";
+import { HiShoppingCart, HiCheckCircle } from "react-icons/hi"; // Импорт зеленой галочки
 import { CartContext } from '../CartContext';
 import { useNavigate } from "react-router-dom";
 
 function Dumps() {
-    const [dumps, setDumps] = useState([]); // Храним данные с бэкенда
-    const [purchaseMessage, setPurchaseMessage] = useState(false); // Сообщение о добавлении в корзину
-    const { addToCart } = useContext(CartContext);
+    const [dumps, setDumps] = useState([]);
+    const [addedItems, setAddedItems] = useState([]); // Храним добавленные элементы
+    const [purchaseMessage, setPurchaseMessage] = useState(false);
+    const { addToCart, cartItems } = useContext(CartContext);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
 
@@ -18,7 +19,6 @@ function Dumps() {
         }
     }, [navigate, token]);
 
-    // Функция для получения данных с бэкенда
     const fetchDumps = () => {
         fetch(`http://192.168.0.219:8081/api/dumps/get_all_dumps`, {
             method: "GET",
@@ -27,30 +27,35 @@ function Dumps() {
                 "Content-Type": "application/json",
             },
         })
-            .then((response) => {
+            .then(response => {
                 if (!response.ok) {
-                    return response.json().then((error) => {
+                    return response.json().then(error => {
                         throw new Error(error.error || "Failed to fetch dumps");
                     });
                 }
                 return response.json();
             })
-            .then((data) => {
+            .then(data => {
                 setDumps(data);
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error("Error fetching dumps data:", error);
             });
     };
 
-    // Функция для обфусцирования даты
     const obfuscateExpDate = (expDate) => {
         const [month, year] = expDate.split('/');
-        return `XX/${year}`; // Скрываем месяц
+        return `XX/${year}`;
     };
 
-    // Добавление товара в корзину
+    // Проверка, добавлен ли элемент
+    const isItemInCart = (id) => cartItems.some(item => item.id === id);
+
     const handleAddToCart = (dump) => {
+        if (isItemInCart(dump.dumpId)) {
+            return; // Если элемент уже добавлен, ничего не делаем
+        }
+
         const rowData = {
             id: dump.dumpId,
             bin: dump.bin,
@@ -68,10 +73,11 @@ function Dumps() {
             price: `$${dump.price.toFixed(2)}`,
             category: 'Dumps'
         };
+
         addToCart(rowData);
+        setAddedItems(prev => [...prev, dump.dumpId]); // Добавляем ID элемента в список
         setPurchaseMessage(true);
 
-        // Убираем сообщение через 3 секунды
         setTimeout(() => {
             setPurchaseMessage(false);
         }, 3000);
@@ -109,10 +115,10 @@ function Dumps() {
                     </tr>
                     </thead>
                     <tbody className='Dumps-tbody'>
-                    {dumps.map((dump) => (
-                        <tr key={dump.id} className='Dumps-tbody-tr'>
+                    {dumps.map(dump => (
+                        <tr key={dump.dumpId} className='Dumps-tbody-tr'>
                             <td>
-                                <input type="checkbox" className="row-select"/>
+                                <input type="checkbox" className="row-select" />
                             </td>
                             <td>{dump.bin}</td>
                             <td>{dump.type}</td>
@@ -128,12 +134,16 @@ function Dumps() {
                             <td>{dump.base}</td>
                             <td>${dump.price.toFixed(2)}</td>
                             <td>
-                                <button
-                                    className='shopping-cart'
-                                    onClick={() => handleAddToCart(dump)}
-                                >
-                                    <HiShoppingCart/>
-                                </button>
+                                {isItemInCart(dump.dumpId) ? (
+                                    <HiCheckCircle color="green" size={24} /> // Зеленая галочка
+                                ) : (
+                                    <button
+                                        className='shopping-cart'
+                                        onClick={() => handleAddToCart(dump)}
+                                    >
+                                        <HiShoppingCart size={24} />
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

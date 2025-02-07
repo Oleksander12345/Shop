@@ -5,11 +5,7 @@ function AdminPanel() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Отримуємо список користувачів з Local Storage
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    setUsers(storedUsers);
-  }, []);
+
 
   const handleDeleteUser = (username) => {
     // Видалення користувача
