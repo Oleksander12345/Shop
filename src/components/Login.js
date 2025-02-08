@@ -83,9 +83,9 @@ function Login() {
         },
         body: JSON.stringify({ username, password }),
       });
+      const data = await response.json(); // Отримуємо JSON-відповідь
   
       if (response.ok) {
-        const data = await response.json();
         // Збереження токена та ролей у localStorage
         localStorage.setItem('token', data.token);
         const decodedToken = JSON.parse(atob(data.token.split(".")[1]));
@@ -93,13 +93,30 @@ function Login() {
         localStorage.setItem("role", decodedToken.roles);
         navigate('/dumps');
       } else {
-        // Отримання повідомлення про помилку від сервера
-        const errorData = await response.json();
-        setError(errorData.message || 'Invalid username or password'); // Відображення тексту помилки
+        // Обробка помилок (отримуємо повідомлення з сервера)
+        switch (response.status) {
+            case 400:
+                setError(data.message || "Bad request. Please check your input.");
+                break;
+            case 401:
+                setError(data.message || "Incorrect username or password.");
+                break;
+            case 403:
+                setError(data.message || "You do not have permission to access this resource.");
+                break;
+            case 404:
+                setError(data.message || "User not found. Please check your credentials.");
+                break;
+            case 500:
+                setError(data.message || "Internal server error. Please try again later.");
+                break;
+            default:
+                setError("An unknown error occurred. Please try again.");
+          }
+     }
+      } catch (error) {
+          setError("Network error. Please check your internet connection.");
       }
-    } catch (error) {
-      setError('Server error. Please try again later.'); // Обробка помилок під час запиту
-    }
   };
 
   return (

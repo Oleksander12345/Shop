@@ -29,7 +29,22 @@
 
 
 
+/* Cart */
+.server-message {
+  display: block;
+  text-align: center;
+}
+.server-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
 
+.server-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
 
 .cart-container {
   padding: 20px;
@@ -1059,11 +1074,11 @@ ul {
   background-color: #646668;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 0.7rem 1.5rem;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .btn-logout:hover {
@@ -1123,10 +1138,9 @@ ul {
   background-color: #646668;
   color: #fff;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  padding: 0.7rem 1.8rem;
+  font-size: 14px;
 }
 
 /* Orders */
@@ -1237,4 +1251,73 @@ Oorder-actions button {
 
 .Order-actions button:hover {
   background-color: #464748;
+}
+
+
+/* Transactions */
+.transaction-panel {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.transaction-container {
+  max-width: 60%;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.transaction-list {
+  margin-top: 20px;
+}
+
+.transaction-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.transaction-table th,
+.transaction-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.transaction-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.transaction-actions {
+  margin-top: 20px;
+}
+.transaction-actions button {
+  background-color: #646668;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  text-align: center;
 }

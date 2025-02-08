@@ -304,7 +304,10 @@ function CVV2() {
                   onChange={handleFilterChange}
                 >
                   <option value="all">- all -</option>
-                  {/* Додаткові варіанти */}
+                  <option value="CITI BANK">CITI BANK</option>
+                  <option value="CHASE BANK">CHASE BANK</option>
+                  <option value="HSBC">HSBC</option>
+                  <option value="WELLS FARGO">WELLS FARGO	</option>
                 </select>
               </div>
             </div>
@@ -320,16 +323,10 @@ function CVV2() {
                   onChange={handleFilterChange}
                 >
                     <option value="all">- all -</option>
+                    <option value="USA">UK</option>
                     <option value="USA">USA</option>
-                    <option value="Canada">Canada</option>
-                    <option value="UnitedKingdom">United Kingdom</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Japan">Japan</option>
-                    <option value="China">China</option>
-                    <option value="India">India</option>
+                    <option value="AU">AU</option>
+                    <option value="CAN">CAN</option>
                 </select>
               </div>
               <div className="CVV2-filter-group">
@@ -402,7 +399,10 @@ function CVV2() {
                   onChange={handleFilterChange}
                 >
                   <option value="all">- all -</option>
-                  {/* Додаткові варіанти */}
+                  <option value={'GOLD'}>GOLD</option>
+                  <option value="STANDARD">STANDARD</option>
+                  <option value="PREMIUM">PREMIUM</option>
+                  <option value="PLATINUM">PLATINUM</option>
                 </select>
               </div>
               <div className="CVV2-filter-group">
@@ -449,6 +449,11 @@ function CVV2() {
                   onChange={handleFilterChange}
                 >
                   <option value="all">- all -</option>
+                  <option value="Alice">Alice</option>
+                  <option value="Mark">Mark</option>
+                  <option value="Sarah">Sarah</option>
+                  <option value="Tom">Tom	</option>
+                  
                   {/* Додаткові варіанти */}
                 </select>
               </div>

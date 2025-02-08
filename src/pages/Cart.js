@@ -24,7 +24,15 @@ function Cart() {
 
 
   const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      setServerMessage("Cart is empty! Please add items before checkout.");
+      clearMessageAfterTimeout(setServerMessage);
+      return; // Зупиняємо виконання функції, якщо кошик порожній
+    }
+  
     try {
+      setServerMessage(""); // Очищаємо попередні повідомлення
+  
       const sendPostRequest = async (url, idKey, idValue) => {
         const response = await fetch(url, {
           method: "POST",
@@ -34,44 +42,40 @@ function Cart() {
           },
           body: JSON.stringify({ [idKey]: idValue })
         });
-
+  
         if (!response.ok) {
           throw new Error(await response.text());
         }
-        return await response.text(); // Возвращаем текст ответа
+        return await response.text();
       };
-
+  
       const requests = [
         ...fullzItems.map(item =>
-            sendPostRequest(`http://192.168.0.219:8081/api/purchase/full/${username}`, "fullId", item.id)
-                .then(responseText => {
-                  setServerMessage(prev => prev + `Fullz ${item.id}: ${responseText}\n`);
-                  handleRemove(item.id); // Удаляем из корзины
-                })
+          sendPostRequest(`http://192.168.0.219:8081/api/purchase/full/${username}`, "fullId", item.id)
         ),
         ...dumpsItems.map(item =>
-            sendPostRequest(`http://192.168.0.219:8081/api/purchase/dump/${username}`, "dumpId", item.id)
-                .then(responseText => {
-                  setServerMessage(prev => prev + `Dump ${item.id}: ${responseText}\n`);
-                  handleRemove(item.id); // Удаляем из корзины
-                })
+          sendPostRequest(`http://192.168.0.219:8081/api/purchase/dump/${username}`, "dumpId", item.id)
         ),
         ...cvv2Items.map(item =>
-            sendPostRequest(`http://192.168.0.219:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
-                .then(responseText => {
-                  setServerMessage(prev => prev + `CVV2 ${item.id}: ${responseText}\n`);
-                  handleRemove(item.id); // Удаляем из корзины
-                })
+          sendPostRequest(`http://192.168.0.219:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
         )
       ];
-
+  
       await Promise.all(requests);
-      setServerMessage(prev => prev + "\nAll purchases completed successfully!");
+  
+      setServerMessage("All purchases completed successfully!"); // ❗ Встановлюємо лише одне фінальне повідомлення
+      clearMessageAfterTimeout(setServerMessage);
+  
+      // Очищення кошика після успішного замовлення
+      cartItems.forEach(item => handleRemove(item.id));
+  
     } catch (error) {
       console.error("Error during checkout:", error);
       setServerMessage(`An error occurred during checkout: ${error.message}`);
     }
   };
+  
+  
 
 
 
@@ -89,15 +93,21 @@ function Cart() {
         .reduce((total, item) => total + parseFloat(item.price.slice(1)), 0)
         .toFixed(2);
   };
+  const clearMessageAfterTimeout = (setMessageFunction) => {
+    setTimeout(() => {
+      setMessageFunction("");
+    }, 2000);
+  };
 
   return (
       <div className="cart-container">
         <h1 className="cart-title">Shopping Cart</h1>
         {serverMessage && (
-            <div className="server-message">
-              <pre>{serverMessage}</pre>
-            </div>
+          <div className={`server-message ${serverMessage.includes("Cart is empty!") ? "error" : "success"}`}>
+            <pre>{serverMessage}</pre>
+          </div>
         )}
+
 
 
         {/* Fullz Section */}

@@ -179,25 +179,11 @@ function Dumps() {
                         <label for="bank">Bank:</label>
                         <select id="bank" value={filters.bank} onChange={handleFilterChange}>
                             <option value="all">- all -</option>
-                            <option value="JPMorgan Chase">JPMorgan Chase</option>
-                            <option value="Bank of America">Bank of America</option>
-                            <option value="Wells Fargo">Wells Fargo</option>
-                            <option value="Citigroup">Citigroup</option>
-                            <option value="HSBC">HSBC</option>
-                            <option value="Goldman Sachs">Goldman Sachs</option>
-                            <option value="Morgan Stanley">Morgan Stanley</option>
-                            <option value="Barclays">Barclays</option>
-                            <option value="Deutsche Bank">Deutsche Bank</option>
-                            <option value="Royal Bank of Canada">Royal Bank of Canada</option>
-                            <option value="UBS">UBS</option>
-                            <option value="BNP Paribas">BNP Paribas</option>
-                            <option value="Credit Suisse">Credit Suisse</option>
-                            <option value="Standard Chartered">Standard Chartered</option>
-                            <option value="Bank of China">Bank of China</option>
-                            <option value="ICBC (Industrial and Commercial Bank of China)">ICBC (Industrial and Commercial Bank of China)</option>
-                            <option value="Santander">Santander</option>
-                            <option value="ING">ING</option>
-                            <option value="Lloyds Banking Group">Lloyds Banking Group</option>
+                            <option value="Woodforest National Bank">Woodforest National Bank</option>
+                            <option value="Citizens Bank">Citizens Bank</option>
+                            <option value="Capital One">Capital One</option>
+                            <option value="Santander Bank">Santander Bank</option>
+                            <option value="Barclays Bank">Barclays Bank</option>
                         </select>
                     </div>
                     <div>
@@ -235,18 +221,12 @@ function Dumps() {
 
                     <div>
                         <label for="country">Country:</label>
-                        <select id="country"value={filters.bankCountry} onChange={handleFilterChange} >
+                        <select id="country"value={filters.country} onChange={handleFilterChange} >
                             <option value="all">- all -</option>
+                            <option value="UK">UK</option>
                             <option value="USA">USA</option>
-                            <option value="Canada">Canada</option>
-                            <option value="UnitedKingdom">United Kingdom</option>
-                            <option value="Germany">Germany</option>
-                            <option value="France">France</option>
-                            <option value="Italy">Italy</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Japan">Japan</option>
-                            <option value="China">China</option>
-                            <option value="India">India</option> 
+                            <option value="AU">AU</option>
+                            <option value="CAN">CAN</option>
                         </select>
                     </div>
                     <div>
@@ -322,13 +302,23 @@ function Dumps() {
                     <div>
                         <label for="subtype">Subtype:</label>
                         <select id="subtype" value={filters.subtype} onChange={handleFilterChange} >
-                            <option value="all">- all -</option>
+                        <option value="all">- all -</option>
+                        <option value={'GOLD'}>GOLD</option>
+                        <option value="STANDARD">STANDARD</option>
+                        <option value="PREMIUM">PREMIUM</option>
+                        <option value="PLATINUM">PLATINUM</option>
+                        <option value="PREPAID">PREPAID</option>
                         </select>
                     </div>
                     <div>
                         <label for="code">Code:</label>
                         <select id="code" value={filters.code} onChange={handleFilterChange}>
                             <option value="all">- all -</option>
+                            <option value="202">202</option>
+                            <option value="202">305</option>
+                            <option value="202">404</option>
+                            <option value="202">507</option>
+                            <option value="202">600</option>
                         </select>
                     </div>
 

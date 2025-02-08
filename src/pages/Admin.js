@@ -1,72 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdDeleteForever } from "react-icons/md";
 
 function AdminPanel() {
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
-  const username = localStorage.getItem("username");
-  const token = localStorage.getItem("token");
   const [message, setMessage] = useState("");
   const [userData, setUserData] = useState(null);
-  useEffect(() => {
-    if (!token) {
-      navigate("/");
-    } else {
-      getUserData();
-    }
-  }, [navigate, token]);
+  const navigate = useNavigate();
 
-  function getUserData() {
-    fetch(`http://192.168.0.219:8081/api/auth/${username}/user-data`, {
+  useEffect(() => {
+    fetchUserData();
+    fetchUsers();
+  }, []);
+
+  // Отримання даних адміністратора
+  function fetchUserData() {
+    fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      credentials: 'include', // Використовуємо cookie-based аутентифікацію
+      headers: { "Content-Type": "application/json" },
     })
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((error) => {
-              throw new Error(error.error || "Failed to fetch user profile");
-            });
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setUserData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching user profile:", error);
-          setMessage("Failed to load user profile. Please try again.");
-        });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUserData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+        setMessage("Failed to load user profile. Please try again.");
+      });
   }
 
+  // Отримання списку користувачів із сервера
+  function fetchUsers() {
+    fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
+      method: "GET",
+      credentials: 'include',
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        setMessage("Failed to load users.");
+      });
+  }
+
+  // Видалення користувача через серверний API
   const handleDeleteUser = (username) => {
-    // Видалення користувача
-    const updatedUsers = users.filter(user => user.username !== username);
-    setUsers(updatedUsers);
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    fetch(`http://192.168.0.219:8081/api/admin/${username}/delete`, {
+      method: "DELETE",
+      credentials: 'include',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete user");
+        }
+        setUsers(users.filter(user => user.username !== username));
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+      });
   };
 
-  const handleChangeRole = (username) => {
-    // Зміна ролі користувача
-    const updatedUsers = users.map(user => {
-      if (user.username === username) {
-        return {
-          ...user,
-          role: user.role === 'ADMIN' ? 'USER' : 'ADMIN', // Зміна ролі
-        };
-      }
-      return user;
-    });
 
-    setUsers(updatedUsers);
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
-  };
-
+  // Вихід користувача (видалення сесії)
   const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    navigate('/');
+    fetch(`http://192.168.0.219:8081/api/auth/logout`, {
+      method: "POST",
+      credentials: 'include',
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(() => {
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error("Error logging out:", error);
+      });
   };
 
   return (
@@ -76,8 +99,15 @@ function AdminPanel() {
 
         <div className="admin-header">
           <p>Manage users and system settings</p>
-          <button className="btn btn-logout" onClick={handleLogout}>Log Out</button>
+          <div style={{display: 'flex', flexDirection: 'column'}}>
+            <button className="btn btn-logout" onClick={handleLogout}>Log Out</button>
+            <button className='btn btn-check-transactions' onClick={() => navigate('/transactions')}>
+              Check transactions
+            </button>
+          </div>
         </div>
+
+        {message && <p className="error-message">{message}</p>}
 
         <div className="user-list">
           <h2 style={{ marginBottom: "20px" }}>Registered Users</h2>
@@ -87,7 +117,6 @@ function AdminPanel() {
                 <tr>
                   <th>Username</th>
                   <th>Email</th>
-                  <th>Role</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -96,23 +125,13 @@ function AdminPanel() {
                   <tr key={user.username}>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
-                    <td>{user.role}</td>
                     <td>
-                      <button
-                        className="btn btn-change-role"
-                        onClick={() => handleChangeRole(user.username)}
-                      >
-                        Change Role
-                      </button>
-                      <button
-                        className="btn btn-delete"
-                        onClick={() => handleDeleteUser(user.username)}
-                      >
-                        Delete
-                      </button>
-                      <button className='btn btn-check-transactions'>
-                        Check transactions
-                      </button>
+                      <div className="remove-button-container">
+                        <button className="remove-button" style={{transform: "scale(1.5)", position: "relative", top: "3px"}} onClick={() => handleDeleteUser(user.username)}>
+                          <MdDeleteForever/>
+                        </button>
+                      </div>
+                      
                     </td>
                   </tr>
                 ))}

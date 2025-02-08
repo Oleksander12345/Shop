@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 };
 
 function Profile() {
-  const [transactions, setTransaction] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [message, setMessage] = useState("");
@@ -34,33 +34,37 @@ function Profile() {
       navigate("/");
     } else {
       getUserData();
-      fetchTransaction();
+      fetchTransactions();
     }
   }, [navigate, token]);
 
-  const fetchTransaction = () => {
-    fetch(`http://192.168.0.219:8081/api/dumps/get_all_dumps`, { 
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
+  const fetchTransactions = () => {
+    fetch(`http://192.168.0.219:8081/api/auth/${username}/user-transaction`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(error => {
-                    throw new Error(error.error || "Failed to fetch dumps");
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-          setTransaction(data);
-        })
-        .catch(error => {
-            console.error("Error fetching dumps data:", error);
-        });
-};
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.error || "Failed to fetch transactions");
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched transactions:", data);
+        const userTransactions = data.filter(trans => trans.username === username); // 🛠 Фільтрація за ім’ям користувача
+        setTransactions(userTransactions);
+      })
+      .catch((error) => {
+        console.error("Error fetching transactions:", error);
+        setMessage("Failed to load transactions. Please try again.");
+      });
+  };
+
 
 
   // Получение данных пользователя с сервера
@@ -249,20 +253,14 @@ function Profile() {
         <div className="profile-section order-history">
           <h3>Transaction History</h3>
           {transactions.map(trans => (
-            <div className="order-history-item" key={trans.transId}>
-            <span className="transaction-id">{trans.transId}</span>
+            <div className="order-history-item" key={trans.transactionId}>
+            <span className="transaction-id">{trans.transactionId}</span>
             <span className="transaction-amount">{trans.amount}</span>
-            <span className="transaction-date">{trans.date}</span>
+            <span className="transaction-date">{trans.createdAt}</span>
             <span className="transaction-cryproCurrency">{trans.cryptoCurrency}</span>
             <span className="transaction-status">{trans.status}</span>
           </div>
           ))}
-          
-          <div className="order-history-item">
-            <span>Order #12346</span>
-            <span>01/12/2025</span>
-            <span>$150.00</span>
-          </div>
         </div>
 
         <button className="logout-button" onClick={handleLogout}>

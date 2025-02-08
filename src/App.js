@@ -15,6 +15,7 @@ import AdminPanel from './pages/Admin';
 import ProtectedRoute from './components/ProtectedRoute';
 import Orders from './pages/Orders'
 import ForgotPassword from './components/ForgotPassword'
+import Transactions from './pages/Transactions';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="profile" element={<Profile />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="transactions" element={<Transactions />} />
           <Route
             path="admin"
             element={
