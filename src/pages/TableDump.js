@@ -15,7 +15,7 @@ function TableOne() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     } else {
       fetchDumps();
     }

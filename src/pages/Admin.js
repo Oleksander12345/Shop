@@ -4,8 +4,42 @@ import { useNavigate } from 'react-router-dom';
 function AdminPanel() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+  const username = localStorage.getItem("username");
+  const token = localStorage.getItem("token");
+  const [message, setMessage] = useState("");
+  const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    } else {
+      getUserData();
+    }
+  }, [navigate, token]);
 
-
+  function getUserData() {
+    fetch(`http://192.168.0.219:8081/api/auth/${username}/user-data`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((error) => {
+              throw new Error(error.error || "Failed to fetch user profile");
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setUserData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          setMessage("Failed to load user profile. Please try again.");
+        });
+  }
 
   const handleDeleteUser = (username) => {
     // Видалення користувача
@@ -20,7 +54,7 @@ function AdminPanel() {
       if (user.username === username) {
         return {
           ...user,
-          role: user.role === 'admin' ? 'user' : 'admin', // Зміна ролі
+          role: user.role === 'ADMIN' ? 'USER' : 'ADMIN', // Зміна ролі
         };
       }
       return user;

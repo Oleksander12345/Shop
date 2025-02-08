@@ -31,7 +31,7 @@ function Profile() {
   const username = localStorage.getItem("username");
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     } else {
       getUserData();
       fetchTransaction();

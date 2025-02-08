@@ -19,7 +19,7 @@ function TableFull() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     } else {
       fetchFullz();
     }

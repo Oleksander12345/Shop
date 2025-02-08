@@ -17,7 +17,7 @@ function TableCvv() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/");
     } else {
       fetchCvvs();
     }
