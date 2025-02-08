@@ -93,6 +93,128 @@ function Dumps() {
                         Item added to cart successfully!
                     </div>
                 )}
+                <div className="filter-form">
+
+                    <div>
+                        <label for="bins">Bins:</label>
+                        <input type="text" id="bins" placeholder="Enter bins"/>
+                        <small>Bins (8 digit): Search by 8 digits is available for users with a rating of 5 crab and above.</small>
+                    </div>
+                    <div>
+                        <label for="bank">Bank:</label>
+                        <select id="bank">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="bank-country">Bank Country:</label>
+                        <select id="bank-country">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="card-number">Card Number:</label>
+                        <input type="text" id="card-number" placeholder="Enter last 4 digits"/>
+                        <small>Search by last 4 digits is available for users with a rating of 2 crab and above.</small>
+                    </div>
+
+
+                    <div>
+                        <label for="country">Country:</label>
+                        <select id="country">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="state">State:</label>
+                        <select id="state">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="city">City:</label>
+                        <select id="city">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="zips">ZIPs:</label>
+                        <textarea id="zips" rows="1" placeholder="Enter ZIPs"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="type">Type:</label>
+                        <select id="type">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="credit-debit">Credit/Debit:</label>
+                        <select id="credit-debit">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="subtype">Subtype:</label>
+                        <select id="subtype">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="code">Code:</label>
+                        <select id="code">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="base">Base:</label>
+                        <select id="base">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="exp-date">Exp Date:</label>
+                        <input type="text" id="exp-date" placeholder="MM/YY"/>
+                    </div>
+                    <div>
+                        <label for="price-range">Price Range:</label>
+                        <select id="price-range">
+                            <option value="all">- all -</option>
+                        </select>
+                    </div>
+                    <div>
+                        <h3 className='Dumps-label'>Options:</h3>
+                        <div>
+                            <div className="Dumps-checkbox-group">
+                                <label for="track1">Track1</label>
+                                <input type="checkbox" id="track1"/>
+                            </div>
+                            <div className="Dumps-checkbox-group">
+                                <label for="track1">PIN</label>
+                                <input type="checkbox" id="pin"/>
+                            </div>
+                            <div className="Dumps-checkbox-group">
+                                <label for="track1">Refundable Only</label>
+                                <input type="checkbox" id="refundable"/>
+                            </div>
+                            <div className="Dumps-checkbox-group">
+                                <label for="track1">Billing ZIP</label>
+                                <input type="checkbox" id="billing-zip"/>
+                            </div>
+                            <div className="Dumps-checkbox-group">
+                                <label for="track1">EDD+pin</label>
+                                <input type="checkbox" id="edd-pin"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className="Dumps-buttons-filter">
+                        <button id="clear">Clear</button>
+                        <button id="search">Search</button>
+                    </div>
+                </div>
 
                 <table className='Dumps-table'>
                     <thead className='Dumps-thead'>
