@@ -158,7 +158,9 @@ function Profile() {
     try {
       const response = await fetch(`http://192.168.0.219:8081/api/auth/${username}/change-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", },
         body: JSON.stringify({ token, oldPassword, newPassword }),
       });
 

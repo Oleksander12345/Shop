@@ -7,6 +7,7 @@ function AdminPanel() {
   const [message, setMessage] = useState("");
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchUserData();
@@ -18,7 +19,9 @@ function AdminPanel() {
     fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include', // Використовуємо cookie-based аутентифікацію
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", },
     })
       .then((response) => {
         if (!response.ok) {
@@ -40,7 +43,9 @@ function AdminPanel() {
     fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include',
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", },
     })
       .then((response) => {
         if (!response.ok) {
@@ -62,7 +67,9 @@ function AdminPanel() {
     fetch(`http://192.168.0.219:8081/api/admin/${username}/delete`, {
       method: "DELETE",
       credentials: 'include',
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", },
       body: JSON.stringify({ username }),
     })
       .then((response) => {
@@ -82,7 +89,9 @@ function AdminPanel() {
     fetch(`http://192.168.0.219:8081/api/auth/logout`, {
       method: "POST",
       credentials: 'include',
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", },
     })
       .then(() => {
         navigate('/');
