@@ -263,6 +263,19 @@ function CVV2() {
     setFilters(defaultFilters);
     setFilteredCvv2s(cvv2s);
   };
+  const maskName = (fullName) => {
+    if (!fullName) return ""; // Якщо значення порожнє
+    
+    const parts = fullName.split(" ");
+    if (parts.length > 1) {
+      return `${parts[0]} ${parts[1][0]}.*****`; // Наприклад: "John D.*****"
+    }
+    return fullName; // Якщо лише ім'я, повертаємо без змін
+  };
+  const maskZip = (zip) => {
+    if (!zip || zip.length < 2) return zip; // Якщо ZIP занадто короткий, не змінюємо
+    return `${zip.slice(0, 2)}****`; // Приклад: "12345" → "12****"
+  };
 
   return (
     <main className='CVV2-main'>
@@ -596,10 +609,10 @@ function CVV2() {
                 <td>{cvv2.type}</td>
                 <td>{cvv2.subtype}</td>
                 <td>{obfuscateExpDate(cvv2.expDate)}</td>
-                <td>{cvv2.name}</td>
+                <td>{maskName(cvv2.name)}</td>
                 <td>{cvv2.country}</td>
                 <td>{cvv2.state}</td>
-                <td>{cvv2.zip}</td>
+                <td>{maskZip(cvv2.zip)}</td>
                 <td>{cvv2.extra}</td>
                 <td>{cvv2.bank}</td>
                 <td>{cvv2.base}</td>

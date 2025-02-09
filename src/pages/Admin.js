@@ -9,11 +9,16 @@ function AdminPanel() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  
   useEffect(() => {
-    fetchUserData();
-    fetchUsers();
-  }, []);
-
+    if (!localStorage.getItem("role") === "ADMIN") {
+        navigate("/");
+    } else {
+      fetchUserData();
+      fetchUsers();
+    }
+}, [navigate, token]);
+ 
   // Отримання даних адміністратора
   function fetchUserData() {
     fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
@@ -64,7 +69,7 @@ function AdminPanel() {
 
   // Видалення користувача через серверний API
   const handleDeleteUser = (username) => {
-    fetch(`http://192.168.0.219:8081/api/admin/${username}/delete`, {
+    fetch(`http://192.168.0.219:8081/api/admin/delete`, {
       method: "DELETE",
       credentials: 'include',
       headers: { 

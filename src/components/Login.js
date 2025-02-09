@@ -26,6 +26,7 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  
 
   const handleSendEmail = async () => {
     if (!email) {
@@ -76,6 +77,7 @@ function Login() {
     e.preventDefault();
   
     try {
+      localStorage.clear();
       const response = await fetch('http://192.168.0.219:8081/api/auth/login', {
         method: 'POST',
         headers: {
@@ -91,6 +93,7 @@ function Login() {
         const decodedToken = JSON.parse(atob(data.token.split(".")[1]));
         localStorage.setItem("username", decodedToken.sub);
         localStorage.setItem("role", decodedToken.roles);
+        console.log(localStorage.getItem("role"))
         navigate('/dumps');
       } else {
         // Обробка помилок (отримуємо повідомлення з сервера)

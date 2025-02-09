@@ -10,8 +10,6 @@ function Menu() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => setIsMenuOpen(false), [location.pathname]);
-
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
   const isAdmin = role === 'ADMIN'; // Перевірка ролі
 
   return (

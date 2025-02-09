@@ -5,7 +5,7 @@ function Registration() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user'); // Роль за замовчуванням — "user"
+  // const [role, setRole] = useState('user'); // Роль за замовчуванням — "user"
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -13,22 +13,6 @@ function Registration() {
     document.body.classList.add('auth-page');
     return () => document.body.classList.remove('auth-page');
   }, []);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const users = JSON.parse(localStorage.getItem('users')) || [];
-  //   const userExists = users.find(user => user.username === username || user.email === email);
-
-  //   if (userExists) {
-  //     setError('Username or email already exists');
-  //   } else {
-  //     const newUser = { username, email, password, role }; // Додаємо роль
-  //     users.push(newUser);
-  //     localStorage.setItem('users', JSON.stringify(users));
-  //     localStorage.setItem('currentUser', JSON.stringify(newUser));
-  //     navigate('/dumps');
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -97,18 +81,7 @@ function Registration() {
             />
           </div>
 
-          <div className="form-field">
-            <label htmlFor="register-role">Role:</label>
-            <select
-              id="register-role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
-          </div>
+          
 
           {error && <p className="error-message">{error}</p>}
 

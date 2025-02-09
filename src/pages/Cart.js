@@ -5,8 +5,7 @@ import { MdDeleteForever } from "react-icons/md";
 import '../main-page.css';
 
 function Cart() {
-  const { cartItems, removeFromCart } = useContext(CartContext);
-
+  const { cartItems, removeFromCart } = useContext(CartContext);  
   // Фильтруем элементы по категориям
   const fullzItems = cartItems.filter((item) => item.category === 'Fullz');
   const dumpsItems = cartItems.filter((item) => item.category === 'Dumps');
@@ -18,10 +17,6 @@ function Cart() {
   const handleRemove = (id) => {
     removeFromCart(id);
   };
-
-
-
-
 
   const handleCheckout = async () => {
     if (cartItems.length === 0) {
@@ -44,7 +39,10 @@ function Cart() {
         });
   
         if (!response.ok) {
-          throw new Error(await response.text());
+          const errorText = await response.text();
+          setServerMessage(errorText); // Встановлюємо повідомлення про помилку
+          clearMessageAfterTimeout(setServerMessage); // Очищаємо повідомлення через 2 секунди
+          throw new Error(errorText);
         }
         return await response.text();
       };
@@ -96,7 +94,7 @@ function Cart() {
   const clearMessageAfterTimeout = (setMessageFunction) => {
     setTimeout(() => {
       setMessageFunction("");
-    }, 2000);
+    }, 3000);
   };
 
   return (

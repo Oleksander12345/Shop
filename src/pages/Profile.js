@@ -55,7 +55,6 @@ function Profile() {
         return response.json();
       })
       .then((data) => {
-        console.log("Fetched transactions:", data);
         const userTransactions = data.filter(trans => trans.username === username); // 🛠 Фільтрація за ім’ям користувача
         setTransactions(userTransactions);
       })
@@ -64,9 +63,6 @@ function Profile() {
         setMessage("Failed to load transactions. Please try again.");
       });
   };
-
-
-
   // Получение данных пользователя с сервера
   function getUserData() {
     fetch(`http://192.168.0.219:8081/api/auth/${username}/user-data`, {
@@ -254,15 +250,32 @@ function Profile() {
 
         <div className="profile-section order-history">
           <h3>Transaction History</h3>
-          {transactions.map(trans => (
-            <div className="order-history-item" key={trans.transactionId}>
-            <span className="transaction-id">{trans.transactionId}</span>
-            <span className="transaction-amount">{trans.amount}</span>
-            <span className="transaction-date">{trans.createdAt}</span>
-            <span className="transaction-cryproCurrency">{trans.cryptoCurrency}</span>
-            <span className="transaction-status">{trans.status}</span>
-          </div>
-          ))}
+          {transactions.length > 0 ? (
+            <table className="transaction-table">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Crypto Currency</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map((trans) => (
+                  <tr key={trans.transactionId}>
+                    <td>{trans.transactionId}</td>
+                    <td>${parseFloat(trans.amount).toFixed(2)}</td>
+                    <td>{new Date(trans.createdAt).toLocaleString()}</td>
+                    <td>{trans.cryptocurrency}</td>
+                    <td>{trans.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No transactions found.</p>
+          )}
         </div>
 
         <button className="logout-button" onClick={handleLogout}>

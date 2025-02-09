@@ -288,8 +288,6 @@ function Fullz() {
                           <input type="checkbox" checked={filters.dob} id="dob"  onChange={handleFilterChange}/>
                       </div>
 
-                      Vlad, [07.02.2025 19:31]
-
 
                       <div className="Fullz-checkbox-group">
                           <label htmlFor="mmn">MMN</label>

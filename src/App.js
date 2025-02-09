@@ -12,7 +12,6 @@ import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import ResetPassword from './components/PasswordReset';
 import AdminPanel from './pages/Admin';
-import ProtectedRoute from './components/ProtectedRoute';
 import Orders from './pages/Orders'
 import ForgotPassword from './components/ForgotPassword'
 import Transactions from './pages/Transactions';
@@ -36,14 +35,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="orders" element={<Orders />} />
           <Route path="transactions" element={<Transactions />} />
-          <Route
-            path="admin"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminPanel />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="admin"element={<AdminPanel /> } />
         </Route>
       </Routes>
     </Router>
