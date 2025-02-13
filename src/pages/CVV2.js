@@ -81,7 +81,7 @@ function CVV2() {
   }, [navigate, token]);
 
   function fetchCVV2() {
-    fetch(`http://192.168.0.219:8081/api/cvv2/get_all_cvv2`, {
+    fetch(`http://localhost:8081/api/cvv2/get_all_cvv2`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

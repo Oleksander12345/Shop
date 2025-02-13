@@ -49,13 +49,13 @@ function Cart() {
   
       const requests = [
         ...fullzItems.map(item =>
-          sendPostRequest(`http://192.168.0.219:8081/api/purchase/full/${username}`, "fullId", item.id)
+          sendPostRequest(`http://localhost:8081/api/purchase/full/${username}`, "fullId", item.id)
         ),
         ...dumpsItems.map(item =>
-          sendPostRequest(`http://192.168.0.219:8081/api/purchase/dump/${username}`, "dumpId", item.id)
+          sendPostRequest(`http://localhost:8081/api/purchase/dump/${username}`, "dumpId", item.id)
         ),
         ...cvv2Items.map(item =>
-          sendPostRequest(`http://192.168.0.219:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
+          sendPostRequest(`http://localhost:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
         )
       ];
   

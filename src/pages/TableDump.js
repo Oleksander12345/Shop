@@ -22,7 +22,7 @@ function TableOne() {
   }, [navigate, token]);
 
   function fetchDumps() {
-    fetch(`http://192.168.0.219:8081/api/dumps/${username}/full`, {
+    fetch(`http://localhost:8081/api/dumps/${username}/full`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -35,7 +35,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://192.168.0.219:8081/api/auth/forgot-password', {
+      const response = await fetch('http://localhost:8081/api/auth/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

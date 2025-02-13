@@ -16,7 +16,7 @@ function Transactions() {
   }, [navigate, token]);
 
   const fetchTransactions = () => {
-    fetch("http://192.168.0.219:8081/api/admin/get-all-transactions", {
+    fetch("http://localhost:8081/api/admin/get-all-transactions", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -39,7 +39,7 @@ function Profile() {
   }, [navigate, token]);
 
   const fetchTransactions = () => {
-    fetch(`http://192.168.0.219:8081/api/auth/${username}/user-transaction`, {
+    fetch(`http://localhost:8081/api/auth/${username}/user-transaction`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ function Profile() {
   };
   // Получение данных пользователя с сервера
   function getUserData() {
-    fetch(`http://192.168.0.219:8081/api/auth/${username}/user-data`, {
+    fetch(`http://localhost:8081/api/auth/${username}/user-data`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ function Profile() {
       return;
     }
   
-    fetch("http://192.168.0.219:8081/api/payment/create-payment", {
+    fetch("http://localhost:8081/api/payment/create-payment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -152,7 +152,7 @@ function Profile() {
     }
 
     try {
-      const response = await fetch(`http://192.168.0.219:8081/api/auth/${username}/change-password`, {
+      const response = await fetch(`http://localhost:8081/api/auth/${username}/change-password`, {
         method: 'POST',
         headers: { 
           Authorization: `Bearer ${token}`,

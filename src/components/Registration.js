@@ -17,7 +17,7 @@ function Registration() {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://192.168.0.219:8081/api/auth/register', {
+      const response = await fetch('http://localhost:8081/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

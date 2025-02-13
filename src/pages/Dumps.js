@@ -43,7 +43,7 @@ function Dumps() {
     }, [navigate, token]);
 
     const fetchDumps = () => {
-        fetch(`http://192.168.0.219:8081/api/dumps/get_all_dumps`, {
+        fetch(`http://localhost:8081/api/dumps/get_all_dumps`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

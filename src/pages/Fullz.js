@@ -51,7 +51,7 @@ function Fullz() {
       };
     
       function fetchFullz() {
-        fetch(`http://192.168.0.219:8081/api/full/all_fulls`, {
+        fetch(`http://localhost:8081/api/full/all_fulls`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

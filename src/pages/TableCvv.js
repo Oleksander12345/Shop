@@ -30,7 +30,7 @@ function TableCvv() {
   }, [isChecked]);
 
   function fetchCvvs() {
-    fetch(`http://192.168.0.219:8081/api/cvv2/${username}/full`, {
+    fetch(`http://localhost:8081/api/cvv2/${username}/full`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

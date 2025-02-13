@@ -21,7 +21,7 @@ function AdminPanel() {
  
   // Отримання даних адміністратора
   function fetchUserData() {
-    fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
+    fetch(`http://localhost:8081/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include', // Використовуємо cookie-based аутентифікацію
       headers: { 
@@ -45,7 +45,7 @@ function AdminPanel() {
 
   // Отримання списку користувачів із сервера
   function fetchUsers() {
-    fetch(`http://192.168.0.219:8081/api/admin/get-all-users`, {
+    fetch(`http://localhost:8081/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include',
       headers: { 
@@ -69,7 +69,7 @@ function AdminPanel() {
 
   // Видалення користувача через серверний API
   const handleDeleteUser = (username) => {
-    fetch(`http://192.168.0.219:8081/api/admin/delete`, {
+    fetch(`http://localhost:8081/api/admin/delete`, {
       method: "DELETE",
       credentials: 'include',
       headers: { 
@@ -91,7 +91,7 @@ function AdminPanel() {
 
   // Вихід користувача (видалення сесії)
   const handleLogout = () => {
-    fetch(`http://192.168.0.219:8081/api/auth/logout`, {
+    fetch(`http://localhost:8081/api/auth/logout`, {
       method: "POST",
       credentials: 'include',
       headers: { 
