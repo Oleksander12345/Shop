@@ -1,33 +1,55 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../CartContext';
 import { Link } from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
 import '../main-page.css';
 
 function Cart() {
-  const { cartItems, removeFromCart } = useContext(CartContext);  
+  const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+  const username = localStorage.getItem("username");
+  const token = localStorage.getItem("token");
+  const [serverMessage, setServerMessage] = useState('');
+
   // Фильтруем элементы по категориям
   const fullzItems = cartItems.filter((item) => item.category === 'Fullz');
   const dumpsItems = cartItems.filter((item) => item.category === 'Dumps');
   const cvv2Items = cartItems.filter((item) => item.category === 'CVV2');
-  const username = localStorage.getItem("username"); // предположим, что у вас есть username в localStorage
-  const [serverMessage, setServerMessage] = useState('');
-  const token = localStorage.getItem("token");
-  // Удаление элемента из корзины
-  const handleRemove = (id) => {
-    removeFromCart(id);
+
+  // Очистка сообщения через 3 секунды
+  const clearMessageAfterTimeout = (setMessageFunction) => {
+    setTimeout(() => {
+      setMessageFunction("");
+    }, 3000);
   };
 
+  const obfuscateExpDate = (expDate) => {
+    const [month, year] = expDate.split('/');
+    return `XX/${year}`;
+  };
+
+
+  // Функция удаления элемента (учитываем категорию)
+  const handleRemove = (id, category) => {
+    removeFromCart(id, category);
+  };
+
+  // Функция оформления заказа
   const handleCheckout = async () => {
+    if (!username) {
+      setServerMessage("You need to log in before checkout.");
+      clearMessageAfterTimeout(setServerMessage);
+      return;
+    }
+
     if (cartItems.length === 0) {
       setServerMessage("Cart is empty! Please add items before checkout.");
       clearMessageAfterTimeout(setServerMessage);
-      return; // Зупиняємо виконання функції, якщо кошик порожній
+      return;
     }
-  
+
     try {
-      setServerMessage(""); // Очищаємо попередні повідомлення
-  
+      setServerMessage("");
+
       const sendPostRequest = async (url, idKey, idValue) => {
         const response = await fetch(url, {
           method: "POST",
@@ -37,64 +59,56 @@ function Cart() {
           },
           body: JSON.stringify({ [idKey]: idValue })
         });
-  
+
         if (!response.ok) {
           const errorText = await response.text();
-          setServerMessage(errorText); // Встановлюємо повідомлення про помилку
-          clearMessageAfterTimeout(setServerMessage); // Очищаємо повідомлення через 2 секунди
+          setServerMessage(errorText);
+          clearMessageAfterTimeout(setServerMessage);
           throw new Error(errorText);
         }
         return await response.text();
       };
-  
+
+      // Создаём массив запросов по категориям
       const requests = [
         ...fullzItems.map(item =>
-          sendPostRequest(`http://localhost:8081/api/purchase/full/${username}`, "fullId", item.id)
+            sendPostRequest(`http://localhost:8081/api/purchase/full/${username}`, "fullId", item.id)
         ),
         ...dumpsItems.map(item =>
-          sendPostRequest(`http://localhost:8081/api/purchase/dump/${username}`, "dumpId", item.id)
+            sendPostRequest(`http://localhost:8081/api/purchase/dump/${username}`, "dumpId", item.id)
         ),
         ...cvv2Items.map(item =>
-          sendPostRequest(`http://localhost:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
+            sendPostRequest(`http://localhost:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
         )
       ];
-  
+
       await Promise.all(requests);
-  
-      setServerMessage("All purchases completed successfully!"); // ❗ Встановлюємо лише одне фінальне повідомлення
+
+      setServerMessage("All purchases completed successfully!");
       clearMessageAfterTimeout(setServerMessage);
-  
-      // Очищення кошика після успішного замовлення
-      cartItems.forEach(item => handleRemove(item.id));
-  
+
+      clearCart(); // Очищаем корзину после успешной покупки
     } catch (error) {
       console.error("Error during checkout:", error);
       setServerMessage(`An error occurred during checkout: ${error.message}`);
     }
   };
-  
-  
-
-
-
 
   function getStatusLabel(text) {
-    if (!text) return <span style={{ color: "red" }}>No</span>; // Якщо text порожній або undefined, повертаємо "Yes"
+    if (!text) return <span style={{ color: "red" }}>No</span>;
 
     const containsNo = text.toLowerCase().includes("no");
     return <span style={{ color: containsNo ? "red" : "green" }}>{containsNo ? "No" : "Yes"}</span>;
   }
 
-  // Расчёт итоговой суммы
+  // Подсчет общей суммы заказа
   const calculateTotal = () => {
     return cartItems
-        .reduce((total, item) => total + parseFloat(item.price.slice(1)), 0)
+        .reduce((total, item) => {
+          const priceNumber = parseFloat(item.price.replace(/[^0-9.]/g, "")); // Убираем все символы, кроме цифр и точки
+          return total + (isNaN(priceNumber) ? 0 : priceNumber);
+        }, 0)
         .toFixed(2);
-  };
-  const clearMessageAfterTimeout = (setMessageFunction) => {
-    setTimeout(() => {
-      setMessageFunction("");
-    }, 3000);
   };
 
   return (
@@ -297,7 +311,7 @@ function Cart() {
                       </td>
                       <td>
                         <div className="remove-button-container">
-                          <button className="remove-button" onClick={() => handleRemove(fullz.id)}>
+                          <button className="remove-button" onClick={() => handleRemove(fullz.id, 'Fullz')}>
                             <MdDeleteForever/>
                           </button>
                         </div>
@@ -343,7 +357,7 @@ function Cart() {
                       <td>{item.type}</td>
                       <td>{item.debitCredit}</td>
                       <td>{item.subtype}</td>
-                      <td>{item.expDate}</td>
+                      <td>{obfuscateExpDate(item.expDate)}</td>
                       <td>{item.track1}</td>
                       <td>{item.billingZip}</td>
                       <td>{item.code}</td>
@@ -353,7 +367,7 @@ function Cart() {
                       <td>{item.base}</td>
                       <td>{item.price}</td>
                       <td>
-                        <button className="remove-button" onClick={() => handleRemove(item.id)}>
+                        <button className="remove-button" onClick={() => handleRemove(item.id, 'Dumps')}>
                           <MdDeleteForever/>
                         </button>
                       </td>
@@ -406,7 +420,7 @@ function Cart() {
                       <td>{item.price}</td>
                       <td>
                         <div className="remove-button-container">
-                          <button className="remove-button" onClick={() => handleRemove(item.id)}>
+                          <button className="remove-button" onClick={() => handleRemove(item.id, item.category)}>
                             <MdDeleteForever />
                           </button>
                         </div>

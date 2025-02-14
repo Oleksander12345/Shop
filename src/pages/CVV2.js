@@ -17,7 +17,7 @@ function CVV2() {
   const [filteredCvv2s, setFilteredCvv2s] = useState([]);
 
   const { addToCart, cartItems } = useContext(CartContext);
-  const isItemInCart = (id) => cartItems.some(item => item.id === id);
+
 
   // Стан для фільтрів
   const [filters, setFilters] = useState({
@@ -43,6 +43,8 @@ function CVV2() {
     attPin: false,
     otp: false,
   });
+
+
 
   // Оновлення стану фільтрів при зміні елементів форми
   const handleFilterChange = (e) => {
@@ -105,32 +107,39 @@ function CVV2() {
       });
   }
 
-  // Додавання товару в корзину
-  const handleAddToCart = (cvv2) => {
-    const rowData = {
-      id: cvv2.cardId,
-      bin: cvv2.bin,
-      type: cvv2.type,
-      subtype: cvv2.subtype,
-      exp: obfuscateExpDate(cvv2.expDate),
-      name: cvv2.name,
-      country: cvv2.country,
-      state: cvv2.state,
-      zip: cvv2.zip,
-      extra: cvv2.extra,
-      bank: cvv2.bank,
-      base: cvv2.base,
-      price: `$${cvv2.price.toFixed(2)}`,
-      category: 'CVV2',
+
+    const isItemInCart = (id, category) =>
+        cartItems.some(item => item.id === id && item.category === category);
+
+// Додавання товару в корзину
+    const handleAddToCart = (cvv2) => {
+        if (isItemInCart(cvv2.cardId, 'CVV2')) return; // Теперь проверяем ID + категорию
+
+        const rowData = {
+            id: cvv2.cardId,
+            bin: cvv2.bin,
+            type: cvv2.type,
+            subtype: cvv2.subtype,
+            exp: obfuscateExpDate(cvv2.expDate),
+            name: maskName(cvv2.name),
+            country: cvv2.country,
+            state: cvv2.state,
+            zip: maskZip(cvv2.zip),
+            extra: cvv2.extra,
+            bank: cvv2.bank,
+            base: cvv2.base,
+            price: `$${cvv2.price.toFixed(2)}`,
+            category: 'CVV2',
+        };
+
+        addToCart(rowData);
+        setPurchaseMessage(true);
+
+        setTimeout(() => {
+            setPurchaseMessage(false);
+        }, 3000);
     };
 
-    addToCart(rowData);
-    setPurchaseMessage(true);
-
-    setTimeout(() => {
-      setPurchaseMessage(false);
-    }, 3000);
-  };
 
   // Фільтрація даних на основі значень фільтрів
   const handleSearch = (e) => {
@@ -597,39 +606,39 @@ function CVV2() {
           </thead>
           <tbody className='CVV2-tbody'>
             {filteredCvv2s.map((cvv2) => (
-              <tr key={cvv2.cardId} className='Dumps-tbody-tr'>
-                <td>
-                  <input
-                    type="checkbox"
-                    className="row-select"
-                    onChange={handleCheckboxChange}
-                  />
-                </td>
-                <td>{cvv2.bin}</td>
-                <td>{cvv2.type}</td>
-                <td>{cvv2.subtype}</td>
-                <td>{obfuscateExpDate(cvv2.expDate)}</td>
-                <td>{maskName(cvv2.name)}</td>
-                <td>{cvv2.country}</td>
-                <td>{cvv2.state}</td>
-                <td>{maskZip(cvv2.zip)}</td>
-                <td>{cvv2.extra}</td>
-                <td>{cvv2.bank}</td>
-                <td>{cvv2.base}</td>
-                <td>${cvv2.price.toFixed(2)}</td>
-                <td>
-                  {isItemInCart(cvv2.cardId) ? (
-                    <HiCheckCircle color="green" size={24}/>
-                  ) : (
-                    <button
-                      className='shopping-cart'
-                      onClick={() => handleAddToCart(cvv2)}
-                    >
-                      <HiShoppingCart size={24}/>
-                    </button>
-                  )}
-                </td>
-              </tr>
+                <tr key={cvv2.cardId} className='Dumps-tbody-tr'>
+                    <td>
+                        <input
+                            type="checkbox"
+                            className="row-select"
+                            onChange={handleCheckboxChange}
+                        />
+                    </td>
+                    <td>{cvv2.bin}</td>
+                    <td>{cvv2.type}</td>
+                    <td>{cvv2.subtype}</td>
+                    <td>{obfuscateExpDate(cvv2.expDate)}</td>
+                    <td>{maskName(cvv2.name)}</td>
+                    <td>{cvv2.country}</td>
+                    <td>{cvv2.state}</td>
+                    <td>{maskZip(cvv2.zip)}</td>
+                    <td>{cvv2.extra}</td>
+                    <td>{cvv2.bank}</td>
+                    <td>{cvv2.base}</td>
+                    <td>${cvv2.price.toFixed(2)}</td>
+                    <td>
+                        {isItemInCart(cvv2.cardId, 'CVV2') ? (
+                            <HiCheckCircle color="green" size={24}/>
+                        ) : (
+                            <button
+                                className='shopping-cart'
+                                onClick={() => handleAddToCart(cvv2)}
+                            >
+                                <HiShoppingCart size={24}/>
+                            </button>
+                        )}
+                    </td>
+                </tr>
             ))}
           </tbody>
         </table>

@@ -15,8 +15,8 @@ function Fullz() {
     const [fullz, setFullz] = useState([]);
     const [filteredFullz, setFilteredFullz] = useState([]);
     const { cartItems } = useContext(CartContext);
-    
-      // Стан для фільтрів
+
+    // Стан для фільтрів
       const [filters, setFilters] = useState({
         firstName: '',
         lastName: '',
@@ -45,11 +45,7 @@ function Fullz() {
           fetchFullz();
         }
       }, [navigate, token]);
-    
-      const isItemInCart = (id) => {
-        return cartItems.some(item => item.id === id);
-      };
-    
+
       function fetchFullz() {
         fetch(`http://localhost:8081/api/full/all_fulls`, {
           method: "GET",
@@ -81,22 +77,29 @@ function Fullz() {
         const containsNo = text.toLowerCase().includes("no");
         return <span style={{ color: containsNo ? "red" : "green" }}>{containsNo ? "No" : "Yes"}</span>;
       }
-    
-      const handleAddToCart = (fullzItem) => {
-        if (isItemInCart(fullzItem.id)) return;
+
+    const isItemInCart = (id, category) => {
+        return cartItems.some(cartItem => cartItem.id === id && cartItem.category === category);
+    };
+
+    const handleAddToCart = (fullzItem) => {
+        if (isItemInCart(fullzItem.id, fullzItem.category)) return; // Теперь передаём id + category
+
         const rowData = {
-          ...fullzItem,
-          price: `$${fullzItem.price.toFixed(2)}`,
-          category: 'Fullz',
+            ...fullzItem,
+            price: `$${fullzItem.price.toFixed(2)}`,
+            category: 'Fullz', // Обязательно устанавливаем категорию
         };
-    
+
         addToCart(rowData);
         setPurchaseMessage(true);
-    
+
         setTimeout(() => {
-          setPurchaseMessage(false);
+            setPurchaseMessage(false);
         }, 3000);
-      };
+    };
+
+
     
       useEffect(() => {
         if (buttonContainerRef.current) {
@@ -583,19 +586,14 @@ function Fullz() {
                         <td><span className='Fullz-prise'>${fullz.price.toFixed(2)}</span></td>
 
                         <td className="cart-icon-cell">
-                            {isItemInCart(fullz.id) ? (
+                            {isItemInCart(fullz.id, fullz.category || 'Fullz') ? (
                                 <HiCheckCircle className="check-icon" color="green" size={24}/>
                             ) : (
-                                <button
-                                    className='shopping-cart'
-                                    onClick={() => handleAddToCart(fullz)}
-                                >
+                                <button className="shopping-cart" onClick={() => handleAddToCart(fullz)}>
                                     <HiShoppingCart size={24}/>
                                 </button>
                             )}
                         </td>
-
-
                     </tr>
                 ))}
           </tbody>

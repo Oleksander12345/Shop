@@ -83,6 +83,17 @@
 }
 
 
+.cart-icon-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.check-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Гарантируем, что иконка центрируется */
+}
 
 
 

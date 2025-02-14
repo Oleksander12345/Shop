@@ -63,13 +63,25 @@ function Dumps() {
         return `XX/${year}`;
     };
 
-    const isItemInCart = (id) => cartItems.some(item => item.id === id);
+    const isItemInCart = (id, category) =>
+        cartItems.some(item => item.id === id && item.category === category);
+
+
 
     const handleAddToCart = (dump) => {
-        if (isItemInCart(dump.dumpId)) return;
+
+        if (!dump.dumpId) {
+            return;
+        }
+
+
+        if (isItemInCart(dump.dumpId, 'Dumps')) {
+            console.log("Item is already in cart, skipping...");
+            return;
+        }
 
         const rowData = {
-            id: dump.dumpId,
+            id: dump.dumpId, // Используем dumpId как id
             bin: dump.bin,
             type: dump.type,
             debitCredit: dump.debitCredit,
@@ -83,13 +95,19 @@ function Dumps() {
             bank: dump.bank,
             base: dump.base,
             price: `$${dump.price.toFixed(2)}`,
-            category: 'Dumps'
+            category: 'Dumps', // Явно указываем категорию
         };
 
         addToCart(rowData);
+
         setPurchaseMessage(true);
-        setTimeout(() => setPurchaseMessage(false), 3000);
+        setTimeout(() => {
+            setPurchaseMessage(false);
+        }, 3000);
     };
+
+
+
 
     // **Обробка змін фільтрів**
     const handleFilterChange = (e) => {
@@ -390,7 +408,7 @@ function Dumps() {
                     {filteredDumps.map(dump => (
                         <tr key={dump.dumpId} className='Dumps-tbody-tr'>
                             <td>
-                                <input type="checkbox" className="row-select" />
+                                <input type="checkbox" className="row-select"/>
                             </td>
                             <td>{dump.bin}</td>
                             <td>{dump.type}</td>
@@ -406,17 +424,19 @@ function Dumps() {
                             <td>{dump.base}</td>
                             <td>${dump.price.toFixed(2)}</td>
                             <td>
-                                {isItemInCart(dump.dumpId) ? (
-                                    <HiCheckCircle color="green" size={24} /> // Зеленая галочка
+                                {isItemInCart(dump.dumpId, dump.category || 'Dumps') ? (
+                                    <HiCheckCircle color="green" size={24}/> // Зеленая галочка
                                 ) : (
                                     <button
                                         className='shopping-cart'
                                         onClick={() => handleAddToCart(dump)}
                                     >
-                                        <HiShoppingCart size={24} />
+                                        <HiShoppingCart size={24}/>
                                     </button>
                                 )}
                             </td>
+
+
                         </tr>
                     ))}
                     </tbody>
