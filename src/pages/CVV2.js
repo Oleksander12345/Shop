@@ -11,6 +11,7 @@ function CVV2() {
   const [purchaseMessage, setPurchaseMessage] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   // Стан для даних та відфільтрованих даних
   const [cvv2s, setCvv2s] = useState([]);
@@ -83,7 +84,7 @@ function CVV2() {
   }, [navigate, token]);
 
   function fetchCVV2() {
-    fetch(`http://localhost:8081/api/cvv2/get_all_cvv2`, {
+    fetch(`${API_URL}/api/cvv2/get_all_cvv2`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

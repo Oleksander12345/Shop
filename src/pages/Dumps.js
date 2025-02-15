@@ -10,6 +10,7 @@ function Dumps() {
     const { addToCart, cartItems } = useContext(CartContext);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
     // **Стан для фільтрів**
     const [filters, setFilters] = useState({
@@ -43,7 +44,7 @@ function Dumps() {
     }, [navigate, token]);
 
     const fetchDumps = () => {
-        fetch(`http://localhost:8081/api/dumps/get_all_dumps`, {
+        fetch(`${API_URL}/api/dumps/get_all_dumps`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

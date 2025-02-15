@@ -26,7 +26,10 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
-  
+  const API_URL = process.env.REACT_APP_API_URL;  // Фолбэк, если не найдено
+  console.log(API_URL)
+
+
 
   const handleSendEmail = async () => {
     if (!email) {
@@ -35,7 +38,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8081/api/auth/forgot-password', {
+      const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +81,7 @@ function Login() {
   
     try {
       localStorage.clear();
-      const response = await fetch('http://192.168.0.219:8081/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

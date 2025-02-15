@@ -14,6 +14,7 @@ function TableCvv() {
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
   const [cvvs, setCvvs] = useState([]); // Состояние для хранения данных
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   useEffect(() => {
     if (!token) {
@@ -30,7 +31,7 @@ function TableCvv() {
   }, [isChecked]);
 
   function fetchCvvs() {
-    fetch(`http://localhost:8081/api/cvv2/${username}/full`, {
+    fetch(`${API_URL}/api/cvv2/${username}/full`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

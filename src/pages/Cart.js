@@ -9,6 +9,7 @@ function Cart() {
   const username = localStorage.getItem("username");
   const token = localStorage.getItem("token");
   const [serverMessage, setServerMessage] = useState('');
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   // Фильтруем элементы по категориям
   const fullzItems = cartItems.filter((item) => item.category === 'Fullz');
@@ -72,13 +73,13 @@ function Cart() {
       // Создаём массив запросов по категориям
       const requests = [
         ...fullzItems.map(item =>
-            sendPostRequest(`http://localhost:8081/api/purchase/full/${username}`, "fullId", item.id)
+            sendPostRequest(`${API_URL}/api/purchase/full/${username}`, "fullId", item.id)
         ),
         ...dumpsItems.map(item =>
-            sendPostRequest(`http://localhost:8081/api/purchase/dump/${username}`, "dumpId", item.id)
+            sendPostRequest(`${API_URL}/api/purchase/dump/${username}`, "dumpId", item.id)
         ),
         ...cvv2Items.map(item =>
-            sendPostRequest(`http://localhost:8081/api/purchase/cvv2/${username}`, "cardId", item.id)
+            sendPostRequest(`${API_URL}/api/purchase/cvv2/${username}`, "cardId", item.id)
         )
       ];
 

@@ -6,6 +6,7 @@ function Transactions() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   useEffect(() => {
     if (!token) {
@@ -16,7 +17,7 @@ function Transactions() {
   }, [navigate, token]);
 
   const fetchTransactions = () => {
-    fetch("http://localhost:8081/api/admin/get-all-transactions", {
+    fetch(`${API_URL}/api/admin/get-all-transactions`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

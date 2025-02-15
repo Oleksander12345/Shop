@@ -16,6 +16,7 @@ function TableFull() {
   const navigate = useNavigate();
   const [fullz, setFullz] = useState([]); // Состояние для хранения данных
   const { cartItems } = useContext(CartContext);
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   useEffect(() => {
     if (!token) {
@@ -35,7 +36,7 @@ function TableFull() {
   }
   
   function fetchFullz() {
-    fetch(`http://localhost:8081/api/dumps/${username}/full`, {
+    fetch(`${API_URL}/api/dumps/${username}/full`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -8,7 +8,7 @@ function ForgotPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
   const token = searchParams.get('token'); // Отримати токен із URL
 
   const handleSubmit = async (e) => {
@@ -20,7 +20,7 @@ function ForgotPassword() {
     }
 
     try {
-      const response = await fetch('http://localhost:8081/api/auth/reset-password', {
+      const response = await fetch(`${API_URL}/api/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, newPassword }),

@@ -8,7 +8,7 @@ function AdminPanel() {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
   
   useEffect(() => {
     if (!localStorage.getItem("role") === "ADMIN") {
@@ -21,7 +21,7 @@ function AdminPanel() {
  
   // Отримання даних адміністратора
   function fetchUserData() {
-    fetch(`http://localhost:8081/api/admin/get-all-users`, {
+    fetch(`${API_URL}/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include', // Використовуємо cookie-based аутентифікацію
       headers: { 
@@ -45,7 +45,7 @@ function AdminPanel() {
 
   // Отримання списку користувачів із сервера
   function fetchUsers() {
-    fetch(`http://localhost:8081/api/admin/get-all-users`, {
+    fetch(`${API_URL}/api/admin/get-all-users`, {
       method: "GET",
       credentials: 'include',
       headers: { 
@@ -69,7 +69,7 @@ function AdminPanel() {
 
   // Видалення користувача через серверний API
   const handleDeleteUser = (username) => {
-    fetch(`http://localhost:8081/api/admin/delete`, {
+    fetch(`${API_URL}/api/admin/delete`, {
       method: "DELETE",
       credentials: 'include',
       headers: { 
@@ -91,7 +91,7 @@ function AdminPanel() {
 
   // Вихід користувача (видалення сесії)
   const handleLogout = () => {
-    fetch(`http://localhost:8081/api/auth/logout`, {
+    fetch(`${API_URL}/api/auth/logout`, {
       method: "POST",
       credentials: 'include',
       headers: { 

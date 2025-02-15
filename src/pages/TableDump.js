@@ -12,6 +12,7 @@ function TableOne() {
     const navigate = useNavigate();
     const username = localStorage.getItem("username");
     const [userDumps, setDumps] = useState([]); // Состояние для хранения данных
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   useEffect(() => {
     if (!token) {
@@ -22,7 +23,7 @@ function TableOne() {
   }, [navigate, token]);
 
   function fetchDumps() {
-    fetch(`http://localhost:8081/api/dumps/${username}/full`, {
+    fetch(`${API_URL}/api/dumps/${username}/full`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

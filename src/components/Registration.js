@@ -8,6 +8,7 @@ function Registration() {
   // const [role, setRole] = useState('user'); // Роль за замовчуванням — "user"
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
   useEffect(() => {
     document.body.classList.add('auth-page');
@@ -17,7 +18,7 @@ function Registration() {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://localhost:8081/api/auth/register', {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

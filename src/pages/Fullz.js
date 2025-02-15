@@ -15,6 +15,7 @@ function Fullz() {
     const [fullz, setFullz] = useState([]);
     const [filteredFullz, setFilteredFullz] = useState([]);
     const { cartItems } = useContext(CartContext);
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8081";  // Фолбэк, если не найдено
 
     // Стан для фільтрів
       const [filters, setFilters] = useState({
@@ -47,7 +48,7 @@ function Fullz() {
       }, [navigate, token]);
 
       function fetchFullz() {
-        fetch(`http://localhost:8081/api/full/all_fulls`, {
+        fetch(`${API_URL}/api/full/all_fulls`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

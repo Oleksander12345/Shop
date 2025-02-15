@@ -6,6 +6,7 @@ import TableFull from "./TableFull";
 function Orders() {
   const [activeTab, setActiveTab] = useState(0); // Стан для активної вкладки
 
+
   const handleTabChange = (index) => {
     setActiveTab(index);
   };
